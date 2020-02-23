@@ -2,16 +2,16 @@ const { app, BrowserWindow, globalShortcut, screen } = require('electron')
 const { Menu, MenuItem } = require('electron')
 const { ipcMain } = require('electron')
 
-let win;
+
+let searchBarWin;
 let dropdownWin;
 const menu = new Menu()
-
 
 menu.append(new MenuItem({
   label: '',
   accelerator: 'Enter',
   click: () => {
-    win.hide();
+    searchBarWin.hide();
     dropdownWin.hide();
   }
 }))
@@ -23,21 +23,19 @@ app.whenReady().then(() => {
   const h = Math.round((height / 100) * 8);
 
   createDropdown(w, h)
-  createWindow(w, h)
+  createSearchBar(w, h)
   
   globalShortcut.register('Alt+A', () => {
-    win.isVisible() ? win.hide() : win.show();
+    searchBarWin.isVisible() ? searchBarWin.hide() : searchBarWin.show();
     dropdownWin.isVisible() ? dropdownWin.hide() : dropdownWin.show();
-    win.focus();
+    searchBarWin.focus();
   })
 })
 
-Menu.setApplicationMenu(menu)
+Menu.setApplicationMenu(menu);
 
-
-function createWindow (w, h) {
-   
-  win = new BrowserWindow({
+function createSearchBar (w, h) {
+  searchBarWin = new BrowserWindow({
     width: w,
     height: h,
     x: w / 2,
@@ -49,11 +47,7 @@ function createWindow (w, h) {
     resizable: false
   })
 
-  win.loadFile('index.html')
-
-  // win.focusOnWebView();
-  // win.focus();
-  // win.webContents.openDevTools()
+  searchBarWin.loadFile('index.html')
 }
 
 function createDropdown(w, searchBarHeight) {
@@ -72,13 +66,11 @@ function createDropdown(w, searchBarHeight) {
   })
 
   dropdownWin.loadFile('dropdown.html')
-
-  // dropdownWin.openDevTools();
 }
 
 ipcMain.on('request-update-dropdown-data', (event, arg) => {
   const dropdownWinHeight = 65 * arg.length;
-  const [ winWidth ] = win.getSize(); 
+  const [ winWidth ] = searchBarWin.getSize(); 
   
   dropdownWin.webContents.send('action-update-dropdown-data', arg);
   dropdownWin.setResizable(true);
