@@ -46,7 +46,7 @@ function createWindow (w, h) {
       nodeIntegration: true
     },
     frame: false,
-    // resizable: false
+    resizable: false
   })
 
   win.loadFile('index.html')
