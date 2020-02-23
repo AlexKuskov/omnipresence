@@ -5,6 +5,10 @@ const searchBarEl = document.querySelector('.js-search-bar');
 let itemIndex = -1;
 let suggestionList = [];
 
+window.addEventListener('show', () => {
+    window.getSelection().removeAllRanges();
+});
+
 searchBarEl.addEventListener('keydown', (e) => {
     // console.log(e.target.value);
     // console.log(e.keyCode); // 38 ^ :: 40 \/
