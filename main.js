@@ -44,10 +44,11 @@ function createSearchBar (w, h) {
       nodeIntegration: true
     },
     frame: false,
-    resizable: false
+    resizable: false,
+    show: false
   })
 
-  searchBarWin.loadFile('index.html')
+  searchBarWin.loadFile('index.html');
 }
 
 function createDropdown(w, searchBarHeight) {
@@ -62,10 +63,11 @@ function createDropdown(w, searchBarHeight) {
       nodeIntegration: true
     },
     frame: false,
-    resizable: false
+    resizable: false,
+    show: false
   })
 
-  dropdownWin.loadFile('dropdown.html')
+  dropdownWin.loadFile('dropdown.html');
 }
 
 ipcMain.on('request-update-dropdown-data', (event, arg) => {
